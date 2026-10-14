@@ -25,6 +25,9 @@ binary follow-up (`<30` vs. rest). About 101k encounters, ~50 raw features.
   grouped-CV `RandomizedSearchCV`.
 - Deep learning: Keras Sequential and Functional (shared ICD-9 embedding) models, `tf.data` input pipeline,
   random hyperparameter search, early stopping.
+- Experiment tracking: every run gets an ID (E01, E02, ...) and is logged to **TensorBoard** (`tb_logs/`):
+  hyperparameters (HParams), metrics, training time, per-epoch curves for Keras runs and key figures. The
+  results table is exported to `results/experiment_table.csv` and every row maps to a TensorBoard run.
 - Evaluation: learning curves, confusion matrices, OvR ROC-AUC, PR curves, error and subgroup analysis.
 
 ## Reproduce
@@ -35,12 +38,20 @@ binary follow-up (`<30` vs. rest). About 101k encounters, ~50 raw features.
 3. Everything is seeded (`SEED = 42`). Runtime knobs (`N_DL_TRIALS`, `N_ML_SEARCH_ITER`, `SVM_SUBSAMPLE`)
    are in the config cell.
 
+## View the TensorBoard logs
+```
+tensorboard --logdir tb_logs
+```
+In Colab/Jupyter, the launcher cell in Section 11 of the notebook opens it inline.
+
 ## Repository layout
 ```
 readmission_ml_dl.ipynb   main notebook
 requirements.txt
 README.md
 figures/                  generated plots (optional to commit)
+tb_logs/                  TensorBoard logs backing the experiment table (commit these)
+results/                  experiment_table.csv
 ```
 `data/` and `models/` are git-ignored. Raw data and saved models (`best_ml_pipeline.joblib`,
 `best_dl_model.keras`, `dl_preprocessing.joblib`) are on Google Drive.
